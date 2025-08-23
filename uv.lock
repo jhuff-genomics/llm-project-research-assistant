@@ -245,12 +245,16 @@ wheels = [
 name = "llm-project-research-assistant"
 version = "0.1.0"
 source = { virtual = "." }
-dependencies = [
+
+[package.dev-dependencies]
+dev = [
     { name = "modal" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "modal", specifier = ">=1.1.3" }]
+
+[package.metadata.requires-dev]
+dev = [{ name = "modal", specifier = ">=1.1.3" }]
 
 [[package]]
 name = "markdown-it-py"
