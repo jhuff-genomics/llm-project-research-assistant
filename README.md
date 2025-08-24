@@ -1,10 +1,10 @@
 # llm-project-research-assistant
-**A research assistant that can answer questions about the text in a collection of PDFs using a frontier large language model (LLM)**
+**A research assistant that can answer queries using a frontier large language model (LLM) while contextualizing with the text from a collection of PDFs**
 
 ## :bulb: Basic idea
-A collection of PDF articles hosted in a public AWS S3 are ingested into chunks and stored in a vector database for efficient retrieval. Upon receiving a user query, the system retrieves the relevant chunks, composing a prompt for the LLM to perform retrieval-augmented generation (RAG). The generated responses cite the source PDFs.
+A collection of PDF articles in an AWS S3 bucket is ingested into chunks and stored in a vector database on disk for efficient retrieval. Upon receiving a user query, the system retrieves the relevant chunks, composing a prompt for a frontier LLM to perform retrieval-augmented generation (RAG). The generated responses cite the source PDFs.
 
-The app is developed and deployed in an inexpensive, pay-as-you-go serverless cloud container service. One container runs the vector knowledge base in memory, persisted to disk for each S3 bucket ingested, and calls the LLM. Another container runs the web server for the user interface.
+The app is developed and deployed using an affordable, pay-as-you-go serverless cloud container service with a generous free tier. The first container ingests the PDFs and populates the knowledge base table on disk along with vector embeddings. Another container queries using a hybrid approach to retrieve text from the knowledge base and sends the augmented prompt to the LLM. A third container runs a web server for a user interface.
 
 
 ## :arrow_forward: Check out the live app
@@ -15,14 +15,14 @@ Website: [https://jhuff-genomics--rag-research-assistant-web.modal.run](https://
 via `curl` CLI for query strings:
 ```
 $ curl --get \
-  --data-urlencode "query=What did the president say about Justice Breyer" \
+  --data-urlencode "query=When were cats domesticated?" \
   https://jhuff-genomics--rag-research-assistant-web.modal.run
 ```
 
 
 ## :computer: Local development 
 
-Set up dev environment (requires [`uv`to be installed](https://docs.astral.sh/uv/guides/install-python/)), excluding all of the app dependencies:
+Set up local dev environment (requires [`uv`to be installed](https://docs.astral.sh/uv/guides/install-python/)), excluding the app dependencies:
 ```
 $ uv sync --no-group app
 ```
@@ -53,17 +53,14 @@ $  uv run modal run rag_research_assistant.py \
 ```
 
 
-To run a temporarily in a cloud with hot reloading:
+To run temporarily in the cloud with hot reloading:
 ```
 $ uv run modal serve rag_research_assistant.py
 ```
 
 
-To query the temporary endpoint:
-```
-$ MODAL_WORKSPACE={modal workspace name}
-# replace with the workspace name for the url below
-    
+To query the temporary endpoint (replace below with the `modal` workspace name for the deployed url or set an environmental variable, e.g.,  using `MODAL_WORKSPACE={modal workspace name}`):
+``` 
 $ curl --get \
   --data-urlencode "query=When were cats domesticated?" \
   https://${MODAL_WORKSPACE}--rag-research-assistant-web-dev.modal.run
@@ -81,10 +78,10 @@ To deploy in a serverless cloud container with `modal`:
 $ uv run modal deploy potus_speech_qanda.py
 ```
 
-To query the deployed web endpoint (replace below with the `modal` workspace name for the deployed url or set an environmental variable for `MODAL_WORKSPACE`):
+To query the deployed web endpoint (replace below with the `modal` workspace name for the deployed url or set an environmental variable, e.g.,  using `MODAL_WORKSPACE={modal workspace name}`):
 ```
 $ curl --get \
-  --data-urlencode "query=What did the president say about Justice Breyer" \
+  --data-urlencode "query=When were cats domesticated?" \
   https://${MODAL_WORKSPACE}--example-potus-speech-qanda-web.modal.run
 ```
 
