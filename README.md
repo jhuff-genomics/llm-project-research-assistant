@@ -71,7 +71,7 @@ The temporary Gradio web app can be accessed at this URL in a browser: `https://
 
 ## :rocket: Cloud deployment
 
-Here is how I deployed the [live app linked above](#️-check-out-the-live-app). The cloud container image requirements split up the `uv` dependency groups as needed.
+Here is how I deployed the [live app linked above](#arrow_forward-check-out-the-live-app). The cloud container image requirements split up the `uv` dependency groups as needed.
 
 To deploy in a serverless cloud container with `modal`:
 ```
