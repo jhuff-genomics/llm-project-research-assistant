@@ -22,7 +22,7 @@ $ curl --get \
 
 ## :computer: Local development 
 
-Set up local dev environment (requires [`uv`to be installed](https://docs.astral.sh/uv/guides/install-python/)), excluding the app dependencies:
+Set up local dev environment (requires [`uv` to be installed](https://docs.astral.sh/uv/getting-started/installation/)), excluding the app dependencies:
 ```
 $ uv sync --no-group app
 ```
@@ -71,18 +71,18 @@ The temporary Gradio web app can be accessed at this URL in a browser: `https://
 
 ## :rocket: Cloud deployment
 
-Here is how I deployed the live app linked at the top.
+Here is how I deployed the [live app linked above](#️-check-out-the-live-app). The cloud container image requirements split up the `uv` dependency groups as needed.
 
 To deploy in a serverless cloud container with `modal`:
 ```
-$ uv run modal deploy potus_speech_qanda.py
+$ uv run modal deploy rag-research-assistant.py
 ```
 
 To query the deployed web endpoint (replace below with the `modal` workspace name for the deployed url or set an environmental variable, e.g.,  using `MODAL_WORKSPACE={modal workspace name}`):
 ```
 $ curl --get \
   --data-urlencode "query=When were cats domesticated?" \
-  https://${MODAL_WORKSPACE}--example-potus-speech-qanda-web.modal.run
+  https://${MODAL_WORKSPACE}--rag-research-assistant-web.modal.run
 ```
 
 The deployed Gradio web app can be accessed at this URL in a browser: `https://${MODAL_WORKSPACE}--rag-research-assistant-web.modal.run`
